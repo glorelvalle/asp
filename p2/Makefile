@@ -1,5 +1,5 @@
 CC = mpicc -pedantic -W
-EXE = ejercicio2.1 ejercicio2.2 ejercicio2.3 ejercicio2.4 ejercicio2.5
+EXE = ejercicio1.1 ejercicio1.2 ejercicio1.3 ejercicio2.1 ejercicio2.2 ejercicio2.3 ejercicio2.4 ejercicio2.5
 all : $(EXE)
 
 .PHONY : clean
