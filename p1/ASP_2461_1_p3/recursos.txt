@@ -1,0 +1,4 @@
+Remoto a host: scp asp06@150.244.56.153:/home/asp06/p1/graf_tiempos.png .
+Host a remoto: scp -rpv medida_latencia.c graficas.sh asp06@150.244.56.153:/home/asp06/p1
+
+mpirun -np num ./ejecutable
