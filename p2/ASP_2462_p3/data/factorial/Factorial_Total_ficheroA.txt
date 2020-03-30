@@ -1,0 +1,4 @@
+Type,Total
+serie,226.290000
+Paralelo_30,11.100000
+Paralelo_1_Dist_30,8.070000
