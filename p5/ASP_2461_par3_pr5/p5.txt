@@ -1,0 +1,83 @@
+transformaciones --> RDD unidad de datos
+Es un array de cosas (puede ser de strings, de floats, de objetos, etc)
+
+api rdds --> sparkContext
+api sql --> spark
+
+op paralelize(lista, opcional num fragmentos)
+
+collect -> para pedir las cosas (tiene que ser pequeño). Reduccion absurda.
+
+cada elemento del rdd es una linea del quijote
+
+take --> solo las 10 primeras
+
+con la interrogacion --> help
+
+
+tranformaciones --> de un rdd te devuelve otro rdd
+
+map --> aplica una determinada funcion (elem que se inserta) para cada k.
+
+filter --> T/F si la f dev T devuelve el RDD si no se va fuera. Mapea uno a uno: tam N
+
+flatMap --> lista de elementos que tiene que insertar. Para generar un rdd con un tamaño distinto al de la entrada. Palabras por rdd. Te devuelve un K que puede ser mayor, menor o igual a N. Depende de la operacion.
+
+sample --> rdd pero aleatorio. Depende de la fraccion. Sin reemplazamiento K <=N, o mayor que K.
+
+union --> tamaño de suma de las dos. Es la concatenacion.
+
+distinct--> k <= N estrictamente.
+
+
+conteo de lineas y de caracteres.
+
+
+Key Value RDDs
+Aqui preprocesa las palabras. Utiliza regex.
+Saca la segunda parte del Quijote. Chachi.
+Genera tuplas (k,v) de k = palabra y v = 1
+Frecuencias de palabras
+
+Hasta que no hace el take no hace las ops
+Spark soporta ops de reduccion sobre la clave
+
+reduceByKey -- en un conjunto de datos (K, V), antes de mezclar los datos, se combinan los pares en la misma máquina con la misma clave.
+
+groupByKey -- en un conjunto de datos de pares (K, V), los datos se mezclan de acuerdo con el valor clave K en otro RDD
+
+join --  + take : analisis de sentiemientos con la frecuencia de palabras ---> parece que en las dos parte del texto existen mas o menos la misma frecuecia de palabras y las mismas palabras --> + lo ha escrito la misma persona
+
+Spark genera un grafo, solo tiene una mem de las ops que tiene que hacer. Hasta el take no recorre el grafo.
+
+El problema es que las ops intermedias no las guarda.
+
+
+¿Cómo se optimizan las ops en Spark?
+
+Paralellize --> num particiones. Puede ser que por mala suerte con un filter se haya hecho unas particiones mal balanceadas:
+
+- coalesce
+	Se usa para reducir el número de particiones
+	Trata de minimizar el movimiento de datos evitando la red aleatoria
+	Crea particiones de tamaño desigual
+
+- repartition
+	Se usa para reducir o disminuir el número de particiones
+	Se activará una red aleatoria que puede aumentar el movimiento de datos
+	Crea particiones de igual tamaño
+
+En local son equivalentes, pero en un cluster son distintas
+
+Sale un fichero por cada particion
+
+Var globales
+sc.broadcast -> se extienden las copias
+
+
+Spark SQL
+
+API alto nivel Spark
+show = collect
+
+se puden hacer consultas
