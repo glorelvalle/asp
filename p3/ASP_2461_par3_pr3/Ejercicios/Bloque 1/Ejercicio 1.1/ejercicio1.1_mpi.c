@@ -1,0 +1,56 @@
+/* --------------------------------------------------------------------------
+* Práctica 3 de Arquitectura de Sistemas Paralelos
+*
+* Cálculo de pi por integración numérica. Usando MPI.
+* (Ejercicio 1.1)
+* Michael Alexander Fajardo y Gloria del Valle
+* -------------------------------------------------------------------------- */
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <mpi.h>
+#include <string.h>
+#include <sys/time.h>
+#define F "pi_performance.txt"
+
+int main (int argc, char **argv) {
+  MPI_Status status;
+  int rank, numprocs;
+  double h;
+  double x;
+  double sum;
+  long i;
+  double pi, mypi;
+  long n;
+  FILE *fp;
+  struct timeval inicio, fin;
+  unsigned long long milisegundos;
+
+  MPI_Init(&argc, &argv);
+  MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+  gettimeofday(&inicio, NULL);
+
+  n = 10485760;
+  h = 1.0 / (double)n;
+  sum = 0.0;
+
+  for(i = rank + 1; i <= n; i += numprocs){
+    x = h * ((double)i - 0.5);
+    sum += 4.0 / (1.0 + x*x);
+  }
+  mypi = h * sum;
+  MPI_Reduce(&mypi, &pi, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
+  gettimeofday(&fin, NULL);
+  milisegundos = (fin.tv_sec - inicio.tv_sec) * 1000;
+  milisegundos += (fin.tv_usec - inicio.tv_usec) / 1000;
+  printf("\n%f segundos\n", milisegundos / 1000.0);
+  fp = fopen(F,"a");
+  fprintf(fp,"MPI,%lf\n",(double)milisegundos / 1000.0);
+  fclose(fp);
+
+  MPI_Finalize();
+  printf("\nPi por integracion numerica (Version MPI): %f\n", pi);
+}

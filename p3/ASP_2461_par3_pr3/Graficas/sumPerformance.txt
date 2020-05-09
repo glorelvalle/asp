@@ -1,0 +1,8 @@
+Serie,6.640000,0
+OpenMp,4.015103,4
+OpenMp_DS,4.133221,4
+Mpi,2.507000,3
+MpiOpenMp,2.340000,3
+OpenMp,2.925727,2
+OpenMp_DS,2.947831,2
+
