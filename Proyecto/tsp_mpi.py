@@ -48,11 +48,12 @@ if __name__ == "__main__":
 	rank = comm.Get_rank()
 
 	random.seed(4)
-	N_ISLES = 5
+	N_ISLES = size
 	FREQ = 5
-
+	
 	if rank == 0:
-		islands = [toolbox.population(n=100) for i in range(size)]
+		pob = int(500/N_ISLES)	
+		islands = [toolbox.population(n=pob) for i in range(N_ISLES)]
 	else:
 		islands = None
 
