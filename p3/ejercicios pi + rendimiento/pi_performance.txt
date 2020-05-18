@@ -1,0 +1,7 @@
+Secuencial,0.290000
+MPI,0.284000
+Parallel,0.043000
+Priv+crit,0.505000
+WS,0.473000
+WS+red,0.042000
+MPI+OpenMP,0.283000
